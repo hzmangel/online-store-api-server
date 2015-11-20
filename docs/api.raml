@@ -1,0 +1,171 @@
+#%RAML 1.0
+---
+title: OnlineSales
+version: v1
+baseUri: TBD
+mediaType: application/json
+protocols: HTTPS
+# securitySchemes:
+#   - oauth_2_0:
+
+types:
+
+  #################
+  # Common
+  #################
+  GeneralImage:
+    properties:
+      url: string
+      width: integer
+      height: integer
+
+
+  #################
+  # Product
+  #################
+  Product:
+    properties:
+      id: string
+      name: string
+      created_at: integer
+      updated_at: integer
+      images: GeneralImage[]
+      details: array
+      specs: array
+
+  ProductDetail:
+    usage: |
+      Describe product detail, each record contains one name, one description and multi images.
+    properties:
+      name: string
+      description: string
+      images: GeneralImage[]
+
+  ProductSpec:
+    usage: |
+      Used for SKU properities, each record contains one name, multi ProductSpecValue records.
+    properties:
+      name: string
+      description: string
+      values: ProductSpecValue[]
+
+  ProductSpecValue:
+    usage: |
+      Used for SKU properoty value, each value contains one value name and multi images.
+    properties:
+      content: string
+      images: GeneralImage[]
+
+/products:
+  get:
+    displayName: ProductsList
+    description: Retrieve all products
+    queryParameters:
+      product_ids:
+        type: string
+        description: Product ids for querying. All ids are joined by comma. If this param present, only given ids will be queries.
+        example: 1,2,3
+        required: false
+      limit:
+        type: integer
+        description: Limit query return count.
+        example: 20
+        default: 10
+        required: false
+    responses:
+      200:
+        description: Succesfully retrieved resource
+
+  post:
+    displayName: ProductsCreate
+    description: Create a new product
+    body:
+      application/json: !!null
+    responses:
+      201:
+        description: |
+          Succesfully created a new resource
+        headers:
+          Location:
+            description: |
+              Location of the newly created resource
+            type: string
+            required: false
+
+
+  /{productId}:
+    uriParameters:
+      productId:
+        type: string
+
+    get:
+      displayName: ProductShow
+      description: Retrieve single product record
+      responses:
+        200:
+          description: |
+            Succesfully retrieved resource
+
+    patch:
+      displayName: ProductUpdate
+      description: Update product from given params.
+
+
+    /offline:
+      patch:
+        displayName: ProductOffline
+        description: Mark a product as offline, then it will be excluded from ProductList result.
+          Update a field of a resource
+        body:
+          application/json: !!null
+        responses:
+          204:
+            description: Product has been marked as offline
+
+    /online:
+      patch:
+        displayName: ProductOnline
+        description: Mark a product as online.
+        body:
+          application/json: !!null
+        responses:
+          204:
+            description: Product has been marked as online.
+/orders:
+  description: Order related APIs
+/goods_records:
+  description: Used for goods records, includes in and out.
+/stores:
+  description: Store related APIs.
+
+  get:
+    displayName: StoreList
+    description: Get list of stores
+    responses:
+      200:
+
+  post:
+    description: Create a new store
+    body:
+      application/json: !!null
+    responses:
+      201:
+
+
+
+  /{storeId}:
+    get:
+      displayName: StoreShow
+      description: Get base store info.
+    patch:
+      displayName: StoreUpdate
+      description: Update a new store
+      body:
+        application/json: !!null
+      responses:
+        204:
+          description: Store info updated
+
+/retailers:
+  get:
+    displayName: StoreRetailerList
