@@ -57,80 +57,113 @@ types:
       images: GeneralImage[]
 
 /products:
-  get:
-    displayName: ProductsList
-    description: Retrieve all products
-    queryParameters:
-      product_ids:
-        type: string
-        description: Product ids for querying. All ids are joined by comma. If this param present, only given ids will be queries.
-        example: 1,2,3
-        required: false
-      limit:
-        type: integer
-        description: Limit query return count.
-        example: 20
-        default: 10
-        required: false
-    responses:
-      200:
-        description: Succesfully retrieved resource
+  /list:
+    get:
+      displayName: ProductsList
+      description: Retrieve all products
+      queryParameters:
+        product_ids:
+          type: string
+          description: Product ids for querying. All ids are joined by comma. If this param present, only given ids will be queries.
+          example: 1,2,3
+          required: false
+        limit:
+          type: integer
+          description: Limit query return count.
+          example: 20
+          default: 10
+          required: false
+      responses:
+        200:
+          description: Succesfully retrieved resource
 
-  post:
-    displayName: ProductsCreate
-    description: Create a new product
-    body:
-      application/json: !!null
-    responses:
-      201:
-        description: |
-          Succesfully created a new resource
-        headers:
-          Location:
-            description: |
-              Location of the newly created resource
-            type: string
-            required: false
+  /create:
+    post:
+      displayName: ProductsCreate
+      description: Create a new product
+      body:
+        application/json: !!null
+      responses:
+        201:
+          description: |
+            Succesfully created a new resource
+          headers:
+            Location:
+              description: |
+                Location of the newly created resource
+              type: string
+              required: false
 
 
-  /{productId}:
-    uriParameters:
-      productId:
-        type: string
-
+  /show:
     get:
       displayName: ProductShow
       description: Retrieve single product record
+      queryParameters:
+        product_ids:
+          type: string
+          required: true
+          description: comma separated product ids
+      responses:
+        200:
+          description: |
+            Succesfully retrieved product(s)
+
+  /update:
+    patch:
+      displayName: ProductUpdate
+      description: Update product from given params.
+      queryParameters:
+        product_ids:
+          type: string
+          required: true
+          description: comma separated product ids
+
+  /destroy:
+    delete:
+      description: |
+        Delete resource
+      queryParameters:
+        product_ids:
+          type: string
+          required: true
+          description: comma separated product ids
+      responses:
+        204:
+          description: |
+            Succesfully deleted resource
+
+  /offline:
+    patch:
+      displayName: ProductOffline
+      description: Mark a product as offline, then it will be excluded from ProductList result.
+        Update a field of a resource
+      body:
+        application/json: !!null
+      responses:
+        204:
+          description: Product has been marked as offline
+
+  /online:
+    patch:
+      displayName: ProductOnline
+      description: Mark a product as online.
+      body:
+        application/json: !!null
+      responses:
+        204:
+          description: Product has been marked as online.
+
+  /search:
+    get:
+      description: Search products
       responses:
         200:
           description: |
             Succesfully retrieved resource
 
-    patch:
-      displayName: ProductUpdate
-      description: Update product from given params.
 
 
-    /offline:
-      patch:
-        displayName: ProductOffline
-        description: Mark a product as offline, then it will be excluded from ProductList result.
-          Update a field of a resource
-        body:
-          application/json: !!null
-        responses:
-          204:
-            description: Product has been marked as offline
-
-    /online:
-      patch:
-        displayName: ProductOnline
-        description: Mark a product as online.
-        body:
-          application/json: !!null
-        responses:
-          204:
-            description: Product has been marked as online.
 /orders:
   description: Order related APIs
 /goods_records:
