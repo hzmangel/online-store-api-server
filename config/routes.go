@@ -43,6 +43,8 @@ func Routes() *httprouter.Router {
 	// Store related routes
 	//////////////////////////////
 	r.GET("/stores/list", storeCtrl.List)
+	r.POST("/stores/create", storeCtrl.Create)
+	r.DELETE("/stores/delete", storeCtrl.Destroy)
 
 	//////////////////////////////
 	// Product related routes
