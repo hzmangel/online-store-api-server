@@ -70,7 +70,7 @@ func Routes() *httprouter.Router {
 	// Order related routes
 	//////////////////////////////
 	r.GET("/orders", orderCtrl.List)
-	r.GET("/products/search", orderCtrl.Search)
+	r.GET("/orders/search", orderCtrl.Search)
 	r.POST("/orders", orderCtrl.Create)
 	r.GET("/orders/show", orderCtrl.Show)
 	r.PATCH("/orders/update", orderCtrl.Update)
