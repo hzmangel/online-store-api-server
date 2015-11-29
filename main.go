@@ -8,5 +8,6 @@ import (
 )
 
 func main() {
+	log.Println("Listening...")
 	log.Fatal(http.ListenAndServe(":9090", config.Routes()))
 }
