@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -25,7 +26,20 @@ func (uc UsersController) List(w http.ResponseWriter, r *http.Request, _ httprou
 /* session related functions */
 // Signin - signin existing user
 func (uc UsersController) Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprint(w, "UserSignin")
+	defer r.Body.Close()
+	type SigninParams struct {
+		Email string
+	}
+
+	decoder := json.NewDecoder(r.Body)
+	var foo SigninParams
+	err := decoder.Decode(&foo)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, "Email: %s", foo.Email)
 }
 
 // Signup - signup new user
