@@ -31,9 +31,29 @@ type (
 		ProductCategoryIDs     []string `json:"product_category_ids"`
 		ProductCategoriesCount int      `json:"product_categories_count"`
 
-		// Distributor relationships
-		DistributorsCount      int `json:"distributors_count"`
-		DistributorLevelsCount int `json:"distributor_levels_count"`
+		// Distributor and related relationships
+		DistributorLevelsCount int      `json:"distributor_levels_count"`
+		DistributorIDs         []string `json:"distributor_ids"`
+		DistributorInfoIDs     []string `json:"distributor_info_ids"`
+		DistributorsCount      int      `json:"distributors_count"`
+		CartIDs                []string `json:"cart_ids"`
+
+		// Manager and retailer
+		ManagerIDs []string `json:"manager_ids"`
+
+		// Orders
+		OrderIDs   []string `json:"order_ids"`
+		OrderSteps []string `json:"order_steps"`
+
+		// Modules
+		ModuleIDs []string `json:"module_ids"`
+
+		// Materials
+		MaterialIDs         []string `json:"material_ids"`
+		MaterialCategoryIDs []string `json:"material_category_ids"`
+
+		// Geo areas
+		GeoAreaIDs []string `json:"geo_area_ids"`
 	}
 )
 
